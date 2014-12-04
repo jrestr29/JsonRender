@@ -1,10 +1,6 @@
 <?php
 
-//namespace JsonRender\controller;
-//require '../data/dao.php';
-
 include('data/dao.php');
-//include('util/html_element.php');
 include('util/imagen_element.php');
 include('util/radio_element.php');
 include('util/text_element.php');
@@ -14,7 +10,6 @@ include('util/select_element.php');
 class Controller {
 
     public function load($counter) {
-
         $db = new DAO();
         $rows = $db->consultaJSON($counter);
 
@@ -23,15 +18,6 @@ class Controller {
         $ctrl = 0;
 
         $arr_dom_elements = $this->processJSON($rows);
-
-
-        /* foreach ($rows as $row) {
-          $json_format = json_decode($row['json'], true);
-
-          $html_return .= $this->convertHtml($json_format, $ctrl);
-          $ctrl++;
-          } */
-
         return $this->generateHTML($arr_dom_elements);
     }
 
@@ -86,7 +72,7 @@ class Controller {
                                     $key = 'top';
 
                                 $attr = $attr . "px";
-                                
+
                                 $element->setDiv_style($key . ": " . $attr);
                                 //unset();
                                 continue;
@@ -94,9 +80,6 @@ class Controller {
                             $element->setStyle($key . ": " . $attr);
                         }
 
-
-                        //echo $element->generateHTML();
-                        //exit;
                         array_push($arr_dom_elements, $element);
                     }
 
@@ -104,9 +87,6 @@ class Controller {
                 }
             }
         }
-
-        //var_dump($arr_dom_elements);
-        //exit;
 
         return $arr_dom_elements;
     }
@@ -119,8 +99,6 @@ class Controller {
         }
 
         return $html;
-
-//        echo $html; exit;
     }
 
     public function checkForRadio($arr_dom_elements) {
