@@ -1,0 +1,13 @@
+.button_container{
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 5px;
+    position: relative;
+    height:30px;
+}
+
+.content_container{
+    position: relative;
+    height: -moz-calc(100% - 30px); /* Firefox */
+    height: -webkit-calc(100% - 30px); /* Chrome, Safari */
+    height: calc(100% - 30px); /* IE9+ CSS3*/
+}
