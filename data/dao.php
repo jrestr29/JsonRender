@@ -1,25 +1,17 @@
 <?php
 
-//namespace data;
-
 include 'database.php';
 
 class DAO{
     
-    private $pdo_instance;
     
-    public function __construct() {
-        $this->pdo_instance = $this->getPdoInstance();
-    }
-    
-    private function getPdoInstance(){
+    public function consultaJSON($counter){
         $database = new Database();
-        $this->pdo_instance = $database->getPdo();
-    }
-    
-    public function getRow(){
         
-    }
-    
+        $stmt = $database->getPdo()->prepare("SELECT json FROM JSON_Elementos LIMIT :limit");
+        $stmt->bindValue(':limit', (int)$counter, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }   
 }
 

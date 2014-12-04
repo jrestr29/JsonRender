@@ -1,7 +1,5 @@
 <?php
 
-//namespace data;
-
 class Database {
 
     private $pdo;
@@ -12,7 +10,7 @@ class Database {
 
     public function __construct() {
         try {
-            $this->pdo = new PDO('mysql:host=' . $this->database_host . ';dbname=' . $this->database_name, $this->database_user, $this->database_password);
+            $this->pdo = new PDO('mysql:host=' . $this->database_host . ';dbname=' . $this->database_name, $this->database_user, $this->database_password, array(PDO::ATTR_PERSISTENT => true));
         } catch (PDOException $ex) {
             echo $ex->getMessage();
             exit;
