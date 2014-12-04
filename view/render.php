@@ -29,7 +29,7 @@
 
                 function ajax_call(counter) {
                     var ajax = $.ajax({
-                        url: "http://localhost/JsonRender/index.php?load=controller&&func=load",
+                        url: "<?php echo URL_EJECUCION; ?>index.php?load=controller&&func=load",
                         dataType: "JSON",
                         type: "POST",
                         data: {counter: counter}

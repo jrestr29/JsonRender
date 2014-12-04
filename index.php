@@ -1,5 +1,5 @@
 <?php
-
+define('URL_EJECUCION', 'http://74.208.132.152/JsonRender/');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
