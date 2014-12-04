@@ -40,4 +40,13 @@ class Imagen extends Element {
         $this->height = $height;
     }
 
+    public function generateHTML() {
+        $style = implode(";", $this->getStyle());
+
+        $html = null;
+        $html .= "<img src='" . $this->getSrc() . "' width='" . $this->getWidth() . "' height='" . $this->getHeight() . "'  style='" . $style . "'>";
+
+        return $html;
+    }
+
 }

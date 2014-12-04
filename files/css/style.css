@@ -11,3 +11,7 @@
     height: -webkit-calc(100% - 30px); /* Chrome, Safari */
     height: calc(100% - 30px); /* IE9+ CSS3*/
 }
+
+.display_inline{
+     display:inline-block;
+}

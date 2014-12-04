@@ -22,7 +22,8 @@ class Controller {
 
         $ctrl = 0;
 
-        $this->processJSON($rows);
+        $arr_dom_elements = $this->processJSON($rows);
+
 
         /* foreach ($rows as $row) {
           $json_format = json_decode($row['json'], true);
@@ -31,7 +32,7 @@ class Controller {
           $ctrl++;
           } */
 
-        return $html_return;
+        return $this->generateHTML($arr_dom_elements);
     }
 
     public function processJSON($json_main) {
@@ -42,17 +43,14 @@ class Controller {
             foreach (json_decode($json_child['json']) as $json) {
                 foreach ($json as $elemento) {
                     foreach ($elemento as $key => $atributos) {
-                        echo "<br>" . $key;
                         if ($key == "text") {
                             $element = new Text("DOM_" . $ctrl);
                         } else if ($key == "radiobutton") {
                             $element_id = $this->checkForRadio($arr_dom_elements);
-                            if(is_null($element_id))
+                            if (is_null($element_id))
                                 $element_id = "DOM_" . $ctrl;
-                            
-                            $element = new Radio($element_id);
-                            
 
+                            $element = new Radio($element_id);
                         } else if ($key == "img") {
                             $element = new Imagen("DOM_" . $ctrl);
                             //Propiedades especificas de IMG: 
@@ -68,22 +66,37 @@ class Controller {
                                 $element->setHeight($atributos->eight);
                                 unset($atributos->eight);
                             }
+                        } else if ($key == "checkbox") {
+                            $element = new Checkbox("DOM_" . $ctrl);
                         }
 
+                        if (array_key_exists("label", $atributos)) {
+                            $element->setLabel($atributos->label);
+                            unset($atributos->label);
+                        }
 
                         //Aqui vamos a procesar los atributos de cada elemento
-                        foreach ($atributos as $key => $attr)
+                        $element->setStyle("position: relative"); //Se agrega la posicion relativa del elemento para poder dibujar la posicion sin ningun orden
+                        $element->setDiv_style("position: relative");
+                        foreach ($atributos as $key => $attr) {
                             if (($key == 'x') || ($key == 'y')) {
                                 if ($key == 'x')
                                     $key = 'left';
                                 else if ($key == 'y')
                                     $key = 'top';
 
-                                $attr = $attr . " px";
+                                $attr = $attr . "px";
+                                
+                                $element->setDiv_style($key . ": " . $attr);
+                                //unset();
+                                continue;
                             }
+                            $element->setStyle($key . ": " . $attr);
+                        }
 
-                        $element->setStyle($key, $attr);
-                        
+
+                        //echo $element->generateHTML();
+                        //exit;
                         array_push($arr_dom_elements, $element);
                     }
 
@@ -94,12 +107,20 @@ class Controller {
 
         //var_dump($arr_dom_elements);
         //exit;
-        
+
         return $arr_dom_elements;
-    } 
-    
-    public function generateHTML($arr_dom_elements){
-        
+    }
+
+    public function generateHTML($arr_dom_elements) {
+        $html = null;
+
+        foreach ($arr_dom_elements as $element) {
+            $html .= $element->generateHTML();
+        }
+
+        return $html;
+
+//        echo $html; exit;
     }
 
     public function checkForRadio($arr_dom_elements) {

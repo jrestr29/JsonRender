@@ -12,9 +12,8 @@ class Style {
         return $this->style;
     }
 
-    function setStyle($property, $value) {
-        $this->style[$property] = $value;
-//        array_push($this->style, $style);
+    function setStyle($value) {
+        array_push($this->style, $value);
     }
 
 }
