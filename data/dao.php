@@ -8,8 +8,12 @@ class DAO{
     public function consultaJSON($counter){
         $database = new Database();
         
-        $stmt = $database->getPdo()->prepare("SELECT json FROM JSON_Elementos LIMIT :limit");
-        $stmt->bindValue(':limit', (int)$counter, PDO::PARAM_INT);
+        $offset = $counter - 1;
+        if($offset < 0)
+            $offset = 0;
+        
+        $stmt = $database->getPdo()->prepare("SELECT json FROM JSON_Elementos LIMIT  1 OFFSET :offset ");
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }   
