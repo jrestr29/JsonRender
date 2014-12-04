@@ -1,10 +1,25 @@
 <?php
 
-namespace data;
+//namespace data;
 
-use data\database;
+include 'database.php';
 
-class dao{
+class DAO{
+    
+    private $pdo_instance;
+    
+    public function __construct() {
+        $this->pdo_instance = $this->getPdoInstance();
+    }
+    
+    private function getPdoInstance(){
+        $database = new Database();
+        $this->pdo_instance = $database->getPdo();
+    }
+    
+    public function getRow(){
+        
+    }
     
 }
 

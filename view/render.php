@@ -9,33 +9,62 @@
         <script>
             $(document).ready(function () {
                 //Ahora que todo esta cargado vamos a consultar en el controlador los elementos a crear
-                var ajax = $.ajax({
-                    url: "index.php?load=controller&&func=loadAll",
-                    dataType: "HTML",
-                    type: "GET"
+                var array_elementos = new Array();
+                var counter = 0;
+
+
+                $("button[id='btn_anterior']").click(function (event) {
+                    event.preventDefault();
+                    counter--;
+                    ajax_call(counter);
+                    validateBackButton(counter);
                 });
 
-
-                ajax.done(function (data) {
-
+                $("button[id='btn_siguiente']").click(function (event) {
+                    event.preventDefault();
+                    counter++;
+                    ajax_call(counter);
+                    validateBackButton(counter);
                 });
 
-                ajax.fail(function () {
-                    console.log("No se pudo ejecutar, sucedio un error");
-                });
+                function ajax_call(counter) {
+                    var ajax = $.ajax({
+                        url: "http://localhost/JsonRender/index.php?load=controller&&func=load",
+                        dataType: "JSON",
+                        type: "POST",
+                        data: {counter: counter}
+                    });
+
+                    ajax.done(function (data) {
+                        console.log(data);
+                        $("section[id='container']").empty();
+                        $("section[id='container']").html(data);
+                    });
+
+                    ajax.fail(function () {
+                        console.log("No se pudo ejecutar, sucedio un error");
+                    });
+                }
+
+                function validateBackButton(counter) {
+                    if (counter > 0)
+                        $("button[id='btn_anterior']").attr('disabled', false);
+                    else
+                        $("button[id='btn_anterior']").attr('disabled', true);
+                }
             });
         </script>
     </head>
 
     <body>
         <section id="control_btns" class="button_container">
-            <button id="btn_anterior" class="btn-default">Anterior</button>
+            <button id="btn_anterior" class="btn-default" disabled>Anterior</button>
             <button id="btn_siguiente" class="btn-success">Siguiente</button>
         </section>
-        
-        
-        <section class="content_container">
-            
+
+
+        <section id="container" class="content_container">
+
         </section>
     </body>
 </html>
