@@ -8,8 +8,12 @@ class Imagen extends Element {
     private $width;
     private $height;
 
-    public function __construct() {
+    public function __construct($id) {
         $this->setType("img");
+        $this->setName($id);
+        $this->setId($id);
+        $this->createLabel();
+        $this->createStyle();
     }
 
     function getSrc() {
